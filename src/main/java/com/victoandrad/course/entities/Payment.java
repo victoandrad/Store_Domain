@@ -12,6 +12,10 @@ import java.util.Objects;
 @Table(name = "tb_payment")
 public class Payment implements Serializable {
 
+    // ==============================
+    // FIELDS
+    // ==============================
+
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -25,6 +29,10 @@ public class Payment implements Serializable {
     @MapsId
     private Order order;
 
+    // ==============================
+    // CONSTRUCTORS
+    // ==============================
+
     public Payment() {
     }
 
@@ -33,6 +41,10 @@ public class Payment implements Serializable {
         this.moment = moment;
         this.order = order;
     }
+
+    // ==============================
+    // GETTERS & SETTERS
+    // ==============================
 
     public Long getId() {
         return id;
@@ -56,18 +68,5 @@ public class Payment implements Serializable {
 
     public void setOrder(Order order) {
         this.order = order;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Payment payment = (Payment) o;
-        return Objects.equals(getId(), payment.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
     }
 }

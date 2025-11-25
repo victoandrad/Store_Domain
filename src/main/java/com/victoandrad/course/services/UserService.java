@@ -16,25 +16,43 @@ import java.util.Optional;
 @Service
 public class UserService {
 
+    // ==============================
+    // FIELDS
+    // ==============================
+
+    private final UserRepository repository;
+
+    // ==============================
+    // CONSTRUCTORS
+    // ==============================
+
     @Autowired
-    private UserRepository repository;
+    public UserService(UserRepository repository) {
+        this.repository = repository;
+    }
+
+    // ==============================
+    // METHODS
+    // ==============================
 
     public List<User> findAll() {
         return repository.findAll();
     }
 
+    // ==============================
+
     public User findById(Long id) {
         Optional<User> obj = repository.findById(id);
-
-        // O objeto Optional representa um valor que pode ou não estar presente
-        // então se tentarmos procurar um user inexistente, o metodo get irá lançar uma exceção
-
         return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
+
+    // ==============================
 
     public User insert(User obj) {
         return repository.save(obj);
     }
+
+    // ==============================
 
     public void delete(Long id) {
         try {
@@ -46,6 +64,8 @@ public class UserService {
         }
     }
 
+    // ==============================
+
     public User update(Long id, User obj) {
         try {
             User entity = repository.getReferenceById(id);
@@ -55,6 +75,8 @@ public class UserService {
             throw new ResourceNotFoundException(id);
         }
     }
+
+    // ==============================
 
     private void updateData(User entity, User obj) {
         entity.setName(obj.getName());

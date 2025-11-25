@@ -13,14 +13,22 @@ import java.util.Objects;
 @Table(name = "tb_order_item")
 public class OrderItem implements Serializable {
 
+    // ==============================
+    // FIELDS
+    // ==============================
+
     @Serial
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId
-    private OrderItemPK id = new OrderItemPK();
+    private final OrderItemPK id = new OrderItemPK();
 
     private Integer quantity;
     private Double price;
+
+    // ==============================
+    // CONSTRUCTORS
+    // ==============================
 
     public OrderItem() {
     }
@@ -31,6 +39,10 @@ public class OrderItem implements Serializable {
         this.quantity = quantity;
         this.price = price;
     }
+
+    // ==============================
+    // GETTERS & SETTERS
+    // ==============================
 
     @JsonIgnore
     public Order getOrder() {
@@ -67,18 +79,5 @@ public class OrderItem implements Serializable {
 
     public Double getSubTotal() {
         return price * quantity;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        OrderItem orderItem = (OrderItem) o;
-        return Objects.equals(id, orderItem.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
     }
 }

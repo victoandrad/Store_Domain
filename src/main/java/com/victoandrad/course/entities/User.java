@@ -13,6 +13,10 @@ import java.util.Objects;
 @Table(name = "tb_user")
 public class User implements Serializable {
 
+    // ==============================
+    // FIELDS
+    // ==============================
+
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -27,7 +31,11 @@ public class User implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "client")
-    private List<Order> orders = new ArrayList<>();
+    private final List<Order> orders = new ArrayList<>();
+
+    // ==============================
+    // CONSTRUCTORS
+    // ==============================
 
     public User() {
     }
@@ -39,6 +47,10 @@ public class User implements Serializable {
         this.phone = phone;
         this.password = password;
     }
+
+    // ==============================
+    // GETTERS & SETTERS
+    // ==============================
 
     public Long getId() {
         return id;
@@ -82,18 +94,5 @@ public class User implements Serializable {
 
     public List<Order> getOrders() {
         return orders;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(getId(), user.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
     }
 }

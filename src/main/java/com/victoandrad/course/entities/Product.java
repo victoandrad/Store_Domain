@@ -13,6 +13,10 @@ import java.util.Set;
 @Table(name = "tb_product")
 public class Product implements Serializable {
 
+    // ==============================
+    // FIELDS
+    // ==============================
+
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -27,10 +31,14 @@ public class Product implements Serializable {
 
     @ManyToMany
     @JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Set<Category> categories = new HashSet<>();
+    private final Set<Category> categories = new HashSet<>();
 
     @OneToMany(mappedBy = "id.product")
-    private Set<OrderItem> items = new HashSet<>();
+    private final Set<OrderItem> items = new HashSet<>();
+
+    // ==============================
+    // CONSTRUCTORS
+    // ==============================
 
     public Product() {
     }
@@ -42,6 +50,23 @@ public class Product implements Serializable {
         this.price = price;
         this.imgURL = imgURL;
     }
+
+    // ==============================
+    // METHODS
+    // ==============================
+
+    @JsonIgnore
+    public Set<Order> getOrders() {
+        Set<Order> orders = new HashSet<>();
+        for (OrderItem item : items) {
+            orders.add(item.getOrder());
+        }
+        return orders;
+    }
+
+    // ==============================
+    // GETTERS & SETTERS
+    // ==============================
 
     public Long getId() {
         return id;
@@ -85,27 +110,5 @@ public class Product implements Serializable {
 
     public Set<Category> getCategories() {
         return categories;
-    }
-
-    @JsonIgnore
-    public Set<Order> getOrders() {
-        Set<Order> orders = new HashSet<>();
-        for (OrderItem item : items) {
-            orders.add(item.getOrder());
-        }
-        return orders;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return Objects.equals(getId(), product.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
     }
 }

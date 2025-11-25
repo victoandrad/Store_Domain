@@ -8,12 +8,15 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "tb_order")
 public class Order implements Serializable {
+
+    // ==============================
+    // FIELDS
+    // ==============================
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -32,10 +35,14 @@ public class Order implements Serializable {
     private User client;
 
     @OneToMany(mappedBy = "id.order")
-    private Set<OrderItem> items = new HashSet<>();
+    private final Set<OrderItem> items = new HashSet<>();
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private Payment payment;
+
+    // ==============================
+    // CONSTRUCTORS
+    // ==============================
 
     public Order() {
     }
@@ -46,6 +53,22 @@ public class Order implements Serializable {
         this.status = status.getCode();
         this.client = client;
     }
+
+    // ==============================
+    // METHODS
+    // ==============================
+
+    public Double getTotal() {
+        double sum = 0.0;
+        for (OrderItem item : items) {
+            sum += item.getPrice();
+        }
+        return sum;
+    }
+
+    // ==============================
+    // GETTERS & SETTERS
+    // ==============================
 
     public Long getId() {
         return id;
@@ -89,26 +112,5 @@ public class Order implements Serializable {
 
     public void setPayment(Payment payment) {
         this.payment = payment;
-    }
-
-    public Double getTotal() {
-        double sum = 0.0;
-        for (OrderItem item : items) {
-            sum += item.getPrice();
-        }
-        return sum;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return Objects.equals(getId(), order.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
     }
 }

@@ -14,8 +14,24 @@ import java.util.List;
 @RequestMapping(value = "/users")
 public class UserController {
 
+    // ==============================
+    // FIELDS
+    // ==============================
+
+    private final UserService service;
+
+    // ==============================
+    // CONSTRUCTORS
+    // ==============================
+
     @Autowired
-    private UserService service;
+    public UserController(UserService service) {
+        this.service = service;
+    }
+
+    // ==============================
+    // METHODS
+    // ==============================
 
     @GetMapping
     public ResponseEntity<List<User>> findAll() {
@@ -23,11 +39,15 @@ public class UserController {
         return ResponseEntity.ok().body(list);
     }
 
+    // ==============================
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<User> findById(@PathVariable Long id) {
         User obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
     }
+
+    // ==============================
 
     @PostMapping
     public ResponseEntity<User> insert(@RequestBody User obj) {
@@ -36,11 +56,15 @@ public class UserController {
         return ResponseEntity.created(uri).body(obj);
     }
 
+    // ==============================
+
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    // ==============================
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User obj) {
