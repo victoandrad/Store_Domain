@@ -11,7 +11,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/categories")
+@RequestMapping(value = "/api/categories")
 public class CategoryController {
 
     // ==============================

@@ -3,11 +3,9 @@ package com.victoandrad.course.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.victoandrad.course.entities.pk.OrderItemPK;
 import jakarta.persistence.*;
-import org.aspectj.weaver.ast.Or;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Objects;
 
 @Entity
 @Table(name = "tb_order_item")
